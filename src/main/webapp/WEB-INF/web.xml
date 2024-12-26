@@ -1,0 +1,101 @@
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+	id="WebApp_ID" version="6.0">
+	<display-name>StudentManagementSystem</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>student_database</servlet-name>
+		<servlet-class>pack1.StudentAdd</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>student_database</servlet-name>
+		<url-pattern>/student</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>admin_login</servlet-name>
+		<servlet-class>pack1.AdminLogin</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>admin_login</servlet-name>
+		<url-pattern>/adminLogin</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>student_login</servlet-name>
+		<servlet-class>pack1.StudentLogin</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>student_login</servlet-name>
+		<url-pattern>/studentLogin</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>update_student</servlet-name>
+		<servlet-class>pack1.UpdateStudent</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>update_student</servlet-name>
+		<url-pattern>/updateStudent</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>delete_student</servlet-name>
+		<servlet-class>pack1.DeleteStudent</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>delete_student</servlet-name>
+		<url-pattern>/deleteStudent</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>fetch_student</servlet-name>
+		<servlet-class>pack1.FetchStudent</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>fetch_student</servlet-name>
+		<url-pattern>/fetchStudent</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>progress_student</servlet-name>
+		<servlet-class>pack1.Progress</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>progress_student</servlet-name>
+		<url-pattern>/progress</url-pattern>
+	</servlet-mapping>
+	
+    <servlet>
+        <servlet-name>progress_student_fetch</servlet-name>
+        <servlet-class>pack1.ProgressFetch</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>progress_student_fetch</servlet-name>
+        <url-pattern>/progressfetch</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Changed the URL pattern for the student_cred servlet -->
+    <servlet>
+		<servlet-name>student_cred</servlet-name>
+		<servlet-class>pack1.StudentLoginCred</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>student_cred</servlet-name>
+		<url-pattern>/studentCred</url-pattern> <!-- Changed this pattern -->
+	</servlet-mapping>
+</web-app>
