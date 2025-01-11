@@ -5,12 +5,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Fetch Student</title>
+  <% 
+  	if(session==null){
+  		response.sendRedirect("index.jsp");
+  		return ;
+  	}
+  
+  	String adminId = (String) session.getAttribute("adminId");
+  	
+  	if(adminId == null){
+  		response.sendRedirect("index.jsp");
+  		return;
+  	}
+  	
+  %>
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: url('images/fetch.jpg') no-repeat center center fixed;
+      background: url('images/school2.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #ffffff;
       display: flex;
@@ -87,6 +101,7 @@
 </head>
 <body>
   <div class="fetch-container">
+    <p class="welcome">Welcome, Admin <%= adminId %>!</p>
     <h1>Fetch Student Details</h1>
     <form action="fetchStudent" method="post">
       <label for="studentId">Student ID:</label>

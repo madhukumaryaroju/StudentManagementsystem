@@ -12,7 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
+@SuppressWarnings("serial")
 public class AdminLogin extends HttpServlet {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/stmanager_db";
@@ -46,6 +47,11 @@ public class AdminLogin extends HttpServlet {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
+                // Create a session for the admin
+                HttpSession session = req.getSession();
+                session.setAttribute("adminId", adminId);
+
+                // Redirect to the options page
                 resp.sendRedirect("options.jsp");
             } else {
                 out.println("<h3>Invalid Admin ID or Password!</h3>");

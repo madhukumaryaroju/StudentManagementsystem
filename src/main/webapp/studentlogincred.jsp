@@ -9,7 +9,7 @@
         margin: 0;
         padding: 0;
         font-family: 'Poppins', sans-serif;
-        background: url('images/schoollogin.jpg') no-repeat center center fixed;
+        background: url('images/school1.jpg') no-repeat center center fixed;
         background-size: cover;
         color: #ffffff;
         display: flex;

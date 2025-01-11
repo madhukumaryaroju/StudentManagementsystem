@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class ProgressFetch extends HttpServlet {
 
@@ -21,7 +22,26 @@ public class ProgressFetch extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String studentId = req.getParameter("studentId");
+        
+    	HttpSession session = req.getSession(false);
+
+        // Check if session exists
+        if (session == null) {
+            resp.sendRedirect("index.jsp");
+            return;
+        }
+
+        // Retrieve adminId from the session
+        String adminId = (String) session.getAttribute("adminId");
+
+        // Redirect to login if adminId is not set
+        if (adminId == null) {
+            resp.sendRedirect("index.jsp");
+            return;
+        }
+    	
+    	
+    	String studentId = req.getParameter("studentId");
         String password = req.getParameter("password");
 
         resp.setContentType("text/html");
@@ -33,7 +53,7 @@ public class ProgressFetch extends HttpServlet {
         out.println("<meta charset='UTF-8'>");
         out.println("<title>Fetch Student Details</title>");
         out.println("<style>");
-        out.println("body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background: url('images/fetch.jpg') no-repeat center center fixed; background-size: cover; color: #ffffff; display: flex; justify-content: center; align-items: center; height: 100vh; }");
+        out.println("body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background: url('images/school2.jpg') no-repeat center center fixed; background-size: cover; color: #ffffff; display: flex; justify-content: center; align-items: center; height: 100vh; }");
         out.println(".result-container { background: rgba(0, 0, 0, 0.9); padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); width: 70%; max-width: 800px; color: #ffffff; }");
         out.println(".result-container h1 { text-align: center; font-size: 36px; color: #4CAF50; margin-bottom: 30px; }");
         out.println("table { width: 100%; border-collapse: collapse; margin-top: 20px; }");
@@ -70,6 +90,7 @@ public class ProgressFetch extends HttpServlet {
 
             if (rs.next()) {
                 out.println("<div class='result-container'>");
+                out.println("<p class=\"welcome\">Welcome, Admin " + adminId + "!</p>");
                 out.println("<h1>Student Details</h1>");
                 out.println("<table>");
                 out.println("<tr><th>Detail</th><th>Value</th></tr>");
@@ -81,7 +102,6 @@ public class ProgressFetch extends HttpServlet {
                 out.println("<tr><td><strong>Web</strong></td><td>" + rs.getString("web") + "</td></tr>");
                 out.println("<tr><td><strong>Java</strong></td><td>" + rs.getString("java") + "</td></tr>");
                 out.println("<tr><td><strong>Full</strong></td><td>" + rs.getString("full") + "</td></tr>");
-                out.println("</table>");
                 out.println("</div>");
             } else {
                 out.println("<div class='result-container'><h1>Error</h1>");

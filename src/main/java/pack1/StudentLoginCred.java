@@ -12,7 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
+@SuppressWarnings("serial")
 @WebServlet("/cred")
 public class StudentLoginCred extends HttpServlet {
 
@@ -23,6 +24,23 @@ public class StudentLoginCred extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id"); // Retrieve Student ID
         String password = req.getParameter("password");
+        
+        HttpSession session = req.getSession(false);
+
+        // Check if session exists
+        if (session == null) {
+            resp.sendRedirect("index.jsp");
+            return;
+        }
+
+        // Retrieve adminId from the session
+        String adminId = (String) session.getAttribute("adminId");
+
+        // Redirect to login if adminId is not set
+        if (adminId == null) {
+            resp.sendRedirect("index.jsp");
+            return;
+        }
 
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
@@ -34,7 +52,7 @@ public class StudentLoginCred extends HttpServlet {
         out.println("<meta name='viewport' content='width=device-width, initial-scale=1.0'>");
         out.println("<title>Student Addition</title>");
         out.println("<style>");
-        out.println("body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 20px;background: url('images/school.jpg') no-repeat center center fixed;  }");
+        out.println("body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 20px;background: url('images/school1.jpg') no-repeat center center fixed;  }");
         out.println(".message-container {margin-top: 18%;margin-right: 2%; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: rgba(0, 0, 0, 0.8); box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); }");
         out.println(".success { color: #28a745; font-weight: bold; }");
         out.println(".error { color: #dc3545; font-weight: bold; }");
@@ -93,6 +111,7 @@ public class StudentLoginCred extends HttpServlet {
             connection.close();
 
             out.println("<div class='message-container'>");
+            out.println("<p class=\"welcome\">Welcome, Admin " + adminId + "!</p>");
             out.println("<p class='success'>Student information saved successfully!</p>");
             out.println("<button onclick=\"window.location.href='options.jsp';\">Return to Home Page</button>");
             out.println("</div>");

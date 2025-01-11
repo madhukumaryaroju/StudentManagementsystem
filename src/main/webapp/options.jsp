@@ -1,5 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+
+<%
+
+    // Retrieve the session (use the built-in 'session' object)
+    if (session == null) {
+        response.sendRedirect("index.jsp");
+        return;
+    }
+
+    // Retrieve adminId from the session
+    String adminId = (String) session.getAttribute("adminId");
+
+    // Redirect to login if adminId is not set
+    if (adminId == null) {
+        response.sendRedirect("index.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +29,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    background: url('images/school.jpg') no-repeat center center fixed;
+    background: url('images/school1.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #ffffff;
     display: flex;
@@ -33,6 +52,12 @@ body {
 .container h1 {
     font-size: 36px;
     margin-bottom: 20px;
+}
+
+.welcome {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #81c784; /* Light green */
 }
 
 .button-grid {
@@ -76,20 +101,6 @@ button:hover {
 .fetch {
     background: linear-gradient(135deg, #ff9800, #ffb74d);
     /* Orange gradient */
-}
-
-.fetchall {
-    background: linear-gradient(135deg, #9c27b0, #ba68c8);
-    /* Purple gradient */
-    width: 100%;
-    padding: 12px;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-left: 50%;
 }
 
 .signout {
@@ -137,7 +148,6 @@ button:hover {
         window.location.href = "student_report.jsp"; 
     }
     
-    
     function studentcred() {
         window.location.href = "studentlogincred.jsp"; 
     }
@@ -150,14 +160,15 @@ button:hover {
 <body>
     <div class="container">
         <h1>Student Management</h1>
+        <p class="welcome">Welcome, Admin <%= adminId %>!</p>
         <div class="button-grid">
-        	<button class="delete" onclick="studentcred()">Student Credentials</button>
+            <button class="delete" onclick="studentcred()">Student Credentials</button>
             <button class="add" onclick="add()">Add Student</button>
             <button class="update" onclick="update()">Update Student</button>
             <button class="delete" onclick="del()">Delete Student</button>
             <button class="fetch" onclick="fetch()">Fetch Student</button>
             <button class="update" onclick="fetchAll()">Fetch All Students</button>
-            <button class="add" onclick="progress()"> Student Marks</button>
+            <button class="add" onclick="progress()">Student Marks</button>
             <button class="fetch" onclick="fullmarks()">All Student Marks</button>
         </div>
     </div>

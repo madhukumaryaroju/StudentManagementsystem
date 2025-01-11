@@ -1,3 +1,21 @@
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+<%
+    // Retrieve the session (use the built-in 'session' object)
+ if(session	== null){
+	 response.sendRedirect("index.jsp");
+	 return;
+	 
+ }
+
+	String adminId = (String)session.getAttribute("adminId");
+
+	if(adminId==null){
+		 response.sendRedirect("index.jsp");
+	return;
+}
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +26,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: url('images/studentadd.jpg') no-repeat center center fixed;
+      background: url('images/school.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #ffffff;
       display: flex;
@@ -104,8 +122,10 @@
   </style>
 </head>
 <body>
+
   <div class="login-container">
     <h1>Student Registration</h1>
+     <p class="welcome">Welcome, Admin <%= adminId %>!</p>
     <form action="student" method="post">
     	
 	    <div>

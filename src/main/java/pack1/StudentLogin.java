@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class StudentLogin extends HttpServlet {
 
@@ -46,6 +47,8 @@ public class StudentLogin extends HttpServlet {
 
             if (rs.next()) {
                 // Redirect to options page if login is successful
+            	HttpSession session = req.getSession();
+                session.setAttribute("id", id);
                 resp.sendRedirect("optionsstudent.jsp");
             } else {
                 // Display error message

@@ -1,14 +1,29 @@
+<%@ page import="jakarta.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>Update Student</title>
+  <% 
+  	if(session==null){
+  		response.sendRedirect("index.jsp");
+  		return ;
+  	}
+  
+  	String adminId = (String) session.getAttribute("adminId");
+  	
+  	if(adminId == null){
+  		response.sendRedirect("index.jsp");
+  		return;
+  	}
+  	
+  %>
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: url('images/schoollogin.jpg') no-repeat center center fixed;
+      background: url('images/school2.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #ffffff;
       display: flex;
@@ -105,6 +120,7 @@
 </head>
 <body>
   <div class="update-container">
+  <p class="welcome">Welcome, Admin <%= adminId %>!</p>
     <h1>Update Student Details</h1>
     <form action="updateStudent" method="post">
       <!-- Row 1: Student ID -->

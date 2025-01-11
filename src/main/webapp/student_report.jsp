@@ -23,7 +23,7 @@
     
     <style type="text/css">/* Apply the background image to the whole page */
 body {
-    background: url('images/studentadd.jpg') no-repeat center center fixed;
+    background: url('images/school3.jpg') no-repeat center center fixed;
     background-size: cover;
     font-family: Arial, sans-serif;
     color: white;

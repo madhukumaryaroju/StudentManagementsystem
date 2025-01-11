@@ -5,12 +5,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Student Management</title>
+<% 
+        // Check if the session is valid and if the admin is logged in
+        if(session == null || session.getAttribute("id") == null) {
+            response.sendRedirect("index.jsp"); // Redirect if admin is not logged in
+            return;
+        }
+
+        // Retrieve admin's ID from session
+        String id = (String) session.getAttribute("id");
+    %>
 <style>
 body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    background: url('images/school.jpg') no-repeat center center fixed;
+    background: url('images/school2.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #ffffff;
     display: flex;
@@ -110,11 +120,11 @@ button:hover {
 </style>
 <script type="text/javascript">
     function progress() {
-        window.location.href = "fetchstupg.jsp";
+        window.location.href = "fetchprogressspecific.jsp";
     }
 
     function fetch() {
-        window.location.href = "fetchStudent.jsp";
+        window.location.href = "fetchspecificstudentt.jsp";
     }
 	
     
@@ -126,6 +136,7 @@ button:hover {
 </head>
 <body>
     <div class="container">
+    <p class="welcome">Welcome, student <%= id %>!</p>
         <h1>Student Management</h1>
         <div class="button-grid">
             <button class="add" onclick="progress()">Check Your Progress</button>

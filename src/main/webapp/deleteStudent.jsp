@@ -5,12 +5,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Delete Student</title>
+  <% 
+  	if(session==null){
+  		response.sendRedirect("index.jsp");
+  		return ;
+  	}
+  
+  	String adminId = (String) session.getAttribute("adminId");
+  	
+  	if(adminId == null){
+  		response.sendRedirect("index.jsp");
+  		return;
+  	}
+  	
+  %>
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: url('images/school.jpg') no-repeat center center fixed;
+      background: url('images/school1.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #ffffff;
       display: flex;
@@ -87,6 +101,7 @@
 </head>
 <body>
   <div class="delete-container">
+    <p class="welcome">Welcome, Admin <%= adminId %>!</p>
     <h1>Delete Student</h1>
     <form action="deleteStudent" method="post">
       <label for="studentId">Student ID:</label>

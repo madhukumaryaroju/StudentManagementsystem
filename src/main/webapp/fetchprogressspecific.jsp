@@ -5,27 +5,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Students</title>
+    <title>Student Details</title>
     <% 
-  	if(session==null){
-  		response.sendRedirect("index.jsp");
-  		return ;
-  	}
-  
-  	String adminId = (String) session.getAttribute("adminId");
-  	
-  	if(adminId == null){
-  		response.sendRedirect("index.jsp");
-  		return;
-  	}
-  	
-  %>
+        // Check if the session is valid and if the admin is logged in
+        if(session == null || session.getAttribute("id") == null) {
+            response.sendRedirect("index.jsp"); // Redirect if admin is not logged in
+            return;
+        }
+
+        // Retrieve admin's ID from session
+        String id = (String) session.getAttribute("id");
+    %>
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
-            background: url('images/school3.jpg') no-repeat center center fixed;
+            background: url('images/school.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #ffffff;
             display: flex;
@@ -90,8 +86,31 @@
 </head>
 <body>
     <div class="fetch-container">
-    <p class="welcome">Welcome, Admin <%= adminId %>!</p>
-        <h1>Student Records</h1>
+        <p class="welcome">Welcome, student <%= id %>!</p>
+        <h1>Student Details</h1>
+        
+        <% 
+            // Database credentials
+            String DB_URL = "jdbc:mysql://localhost:3306/stmanager_db";
+            String DB_USER = "root";
+            String DB_PASSWORD = "123456789";
+            
+            try {
+                // Load JDBC driver
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+                // Query to fetch specific student based on session ID
+                PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM PROGRESS WHERE id = ?");
+                pstmt.setInt(1, Integer.parseInt(id));  // Set the student ID parameter from session
+
+                // Execute the query and get the result
+                ResultSet rs = pstmt.executeQuery();
+                
+                // If student exists, display their details
+                if (rs.next()) {
+        %>
+
         <table>
             <thead>
                 <tr>
@@ -103,31 +122,9 @@
                     <th>Web Technology</th>
                     <th>Java Programming</th>
                     <th>Result</th>
-                    
                 </tr>
             </thead>
             <tbody>
-                <%
-                    // Database credentials
-                    String DB_URL = "jdbc:mysql://localhost:3306/stmanager_db";
-                    String DB_USER = "root";
-                    String DB_PASSWORD = "123456789";
-
-                    try {
-                        // Load JDBC driver
-                        Class.forName("com.mysql.cj.jdbc.Driver");
-
-                        // Establish connection
-                        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-
-                        // Execute query to fetch all student records
-                        String query = "SELECT * FROM PROGRESS";
-                        Statement stmt = conn.createStatement();
-                        ResultSet rs = stmt.executeQuery(query);
-
-                        // Iterate through the result set and display data in table rows
-                        while (rs.next()) {
-                %>
                 <tr>
                     <td><%= rs.getInt("id") %></td>
                     <td><%= rs.getString("name") %></td>
@@ -139,16 +136,20 @@
                     <td><%= rs.getString("full") %></td>
                     
                 </tr>
-                <%
-                        }
-                        conn.close();
-                    } catch (Exception e) {
-                        out.println("<p>Error: " + e.getMessage() + "</p>");
-                        e.printStackTrace();
-                    }
-                %>
             </tbody>
         </table>
+
+        <%
+                } else {
+                    out.println("<p>No student found with ID: " + id + "</p>");
+                }
+
+                conn.close();
+            } catch (Exception e) {
+                out.println("<p>Error: " + e.getMessage() + "</p>");
+                e.printStackTrace();
+            }
+        %>
     </div>
 </body>
 </html>

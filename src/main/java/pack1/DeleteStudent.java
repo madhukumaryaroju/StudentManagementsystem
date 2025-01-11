@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class DeleteStudent extends HttpServlet {
 
@@ -20,7 +21,27 @@ public class DeleteStudent extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String studentId = req.getParameter("studentId");
+       
+    	HttpSession session = req.getSession(false);
+
+        // Check if session exists
+        if (session == null) {
+            resp.sendRedirect("index.jsp");
+            return;
+        }
+
+        // Retrieve adminId from the session
+        String adminId = (String) session.getAttribute("adminId");
+
+        // Redirect to login if adminId is not set
+        if (adminId == null) {
+            resp.sendRedirect("index.jsp");
+            return;
+        }
+    	
+    	
+    	
+    	String studentId = req.getParameter("studentId");
 
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
@@ -62,6 +83,8 @@ public class DeleteStudent extends HttpServlet {
 
             if (rowsDeleted > 0) {
                 out.println("<div class='result-container'><h1>Delete Student</h1>");
+                out.println("<p class=\"welcome\">Welcome, Admin " + adminId + "!</p>");
+
                 out.println("<p class='success'>Student with ID " + studentId + " deleted successfully!</p>");
             } else {
                 out.println("<div class='result-container'><h1>Delete Student</h1>");
